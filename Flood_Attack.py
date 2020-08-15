@@ -47,11 +47,20 @@ class Main():
 
     else:
         if sys.argv[3] == "TCP" or "tcp":
-            TCP_Attack(str(sys.argv[1]), int(sys.argv[2]))
+            try:
+                TCP_Attack(str(sys.argv[1]), int(sys.argv[2]))
+
+            except ConnectionRefusedError:
+                print("Error, Connection Refused...!")
+                sys.exit()
 
         if sys.argv[3] == "UDP" or "udp":
-            UDP_Attack(str(sys.argv[1]), int(sys.argv[2]))
+            try:
+                UDP_Attack(str(sys.argv[1]), int(sys.argv[2]))
 
+            except ConnectionRefusedError:
+                print("Error, Connection Refused...!")
+                sys.exit()
 
 if __name__ == "__main__":
     Main()
